@@ -1,26 +1,41 @@
-import React, {useState, useEffect} from 'react';
+import React, { useReducer } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+const initialState = {
+  cont: 0
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'incrementar': {
+      return {cont: state.cont + 1};
+    }
+    case 'decrementar': {
+      return {cont: state.cont - 1};
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+
 export default function App() {
-  const [cont, setCont] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-
-    // setTimeout(() => {
-      setLoading(!loading);
-    // }, 1000);
-
-  }, [cont]);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <View style={styles.container}>
-      <Text onPress={()=> setCont(cont+1)} >{loading ? "Cargando" : cont + "!"}</Text>
+      <Text onPress={() => dispatch({type: 'incrementar'})} style={styles.text} >+</Text>
+      <Text style={styles.text} >{state.cont}</Text>
+      <Text onPress={() => dispatch({type: 'decrementar'})} style={styles.text} >-</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  text: {
+    fontSize: 60
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
