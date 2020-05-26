@@ -1,10 +1,21 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
+  const [cont, setCont] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+
+    // setTimeout(() => {
+      setLoading(!loading);
+    // }, 1000);
+
+  }, [cont]);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text onPress={()=> setCont(cont+1)} >{loading ? "Cargando" : cont + "!"}</Text>
     </View>
   );
 }
